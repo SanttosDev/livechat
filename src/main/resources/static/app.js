@@ -41,11 +41,16 @@ function disconnect() {
 }
 
 function sendMessage() {
+    const message = $("#message").val().trim();
+    if (message === "") {
+        return;
+    }
+
     stompClient.publish({
         destination: "/app/new-message",
-        body: JSON.stringify({'user': $("#user").val(), 'message': $("#message").val()})
+        body: JSON.stringify({'user': $("#user").val(), 'message': message})
     });
-    $("#message").val("");
+    $("#message").val(""); 
 }
 
 function updateLiveChat(message) {
@@ -57,4 +62,24 @@ $(function () {
     $( "#connect" ).click(() => connect());
     $( "#disconnect" ).click(() => disconnect());
     $( "#send" ).click(() => sendMessage());
+});
+
+function loadHistory() {
+    fetch('/history')
+        .then(response => response.json())
+        .then(messages => {
+            messages.forEach(message => {
+                updateLiveChat(message.user + ": " + message.message);
+            });
+        });
+}
+
+$(function () {
+    $("form").on('submit', (e) => e.preventDefault());
+    $("#connect").click(() => {
+        connect();
+        loadHistory(); // Carregar o histórico ao conectar
+    });
+    $("#disconnect").click(() => disconnect());
+    $("#send").click(() => sendMessage());
 });
