@@ -1,5 +1,5 @@
 const stompClient = new StompJs.Client({
-    brokerURL: 'ws://' + window.location.host + '/system-live-websocket'
+    brokerURL: 'wss://' + window.location.host + '/system-live-websocket'
 });
 
 stompClient.onConnect = (frame) => {

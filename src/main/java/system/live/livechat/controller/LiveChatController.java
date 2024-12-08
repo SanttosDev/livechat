@@ -1,5 +1,7 @@
 package system.live.livechat.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,7 @@ import org.springframework.web.util.HtmlUtils;
 import system.live.livechat.domain.ChatInput;
 import system.live.livechat.domain.ChatOutput;
 
+@CrossOrigin(origins = "*")
 @Controller
 public class LiveChatController {
 
